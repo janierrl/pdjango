@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
-# exit on error
+# Exit on error
+set -o errexit
 
-# poetry install
-pip install -r requeriments.txt
+# Modify this line as needed for your package manager (pip, poetry, etc.)
+pip install -r requirements.txt
 
+# Compile translation messages
+python manage.py compilemessages
+
+# Convert static asset files
 python manage.py collectstatic --no-input
+
+# Apply any outstanding database migrations
 python manage.py migrate
