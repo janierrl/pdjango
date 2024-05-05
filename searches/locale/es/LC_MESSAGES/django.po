@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+
+msgid "Home"
+msgstr "Inicio"
+
+msgid "Welcome to Our Website! We are excited to have you here. This website offers a variety of features to enhance your experience:"
+msgstr "¡Bienvenido a nuestro sitio web! Estamos emocionados de tenerte aquí. Este sitio web ofrece una variedad de funciones para mejorar tu experiencia:"
+
+msgid "Search: Easily find what you're looking for."
+msgstr "Búsqueda: Encuentra fácilmente lo que estás buscando."
+
+msgid "Manage Searches: Save and manage your searches."
+msgstr "Gestionar búsquedas: Guarda y gestiona tus búsquedas."
+
+msgid "Results: View and explore search results."
+msgstr "Resultados: Visualiza y explora los resultados de búsqueda."
+
+msgid "Search"
+msgstr "Buscar"
+
+msgid "English"
+msgstr "Inglés"
+
+msgid "Spanish"
+msgstr "Español"

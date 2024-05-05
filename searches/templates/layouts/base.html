@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django project</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        nav {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        nav h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-right: 30px;
+        }
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+        }
+        /* Estilos para el menú desplegable */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            min-width: 160px;
+            z-index: 1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            overflow: visible;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            right: 0;
+        }
+        .dropdown-content a {
+            color: #fff;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+        .dropdown-content a:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <h1>PDJANGO</h1>
+        <ul>
+            <li>
+                <a href="{% url 'home' %}">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'register_search' %}">Search</a>
+            </li>
+            <li>
+                <a href="{% url 'searches' %}">Searches</a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Account</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'manage_account' %}">Manage Account</a>
+                    <a href="{% url 'delete_account' %}">Delete Account</a>
+                    {% if user.is_superuser %}
+                    <a href="{% url 'admin:index' %}">Admin Panel</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'register' %}">Register</a>
+            </li>
+            <li>
+                <a href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+    
+</body>
+</html>

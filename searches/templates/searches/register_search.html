@@ -1,0 +1,119 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<style>
+    /* Estilos para el formulario de búsqueda */
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center; /* Centrar verticalmente */
+        max-width: 600px; /* Ancho máximo del formulario */
+        margin: auto;
+    }
+
+    .logo {
+        color: #333;
+        font-size: 65px; /* Tamaño grande para el título */
+        text-align: center; /* Centrado horizontal */
+        margin-bottom: 20px; /* Separación inferior */
+        margin-top: 100px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Centrar verticalmente */
+        width: 100%;
+        max-width: 500px; /* Ancho máximo del contenedor */
+        margin-bottom: 20px; /* Separación inferior */
+    }
+
+    input[type="text"] {
+        flex: 1;
+        padding: 10px 40px 10px 10px; /* Ajustar el padding para el ícono */
+        border: 1px solid #333; /* Cambio de color del borde */
+        border-radius: 25px;
+        font-size: 16px;
+    }
+
+    input[type="text"]:hover {
+        background-color: rgba(51, 51, 51, 0.1);
+    }
+
+    input[type="text"]:focus {
+        outline: none; /* Eliminar el borde predeterminado al hacer clic */
+    }
+
+    input[type="text"]::placeholder {
+        color: #333; /* Color del texto de placeholder */
+        opacity: 1;
+    }
+
+    select {
+        padding: 10px;
+        border: 1px solid #333;
+        border-radius: 25px;
+        font-size: 16px;
+        margin-left: 15px;
+        background-color: #333; /* Color de fondo del select */
+        color: #fff; /* Color de texto del select */
+    }
+
+    select:hover {
+        color: #ffd700;
+    }
+
+    /* Estilos para el icono del select */
+    select::-ms-expand {
+        color: #fff; /* Color de texto del icono en navegadores IE */
+    }
+
+    /* Estilos para el icono del select al pasar el mouse o estar enfocado */
+    select:hover::-ms-expand {
+        color: #ffd700; /* Color de texto del icono del select al pasar el mouse o estar enfocado en navegadores IE */
+    }
+
+    .search-icon {
+        margin-left: -30px; /* Ajuste para el ícono */
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .search-icon:hover {
+        color: #4285f4; /* Cambio de color al pasar el cursor */
+    }
+
+    button {
+        display: none; /* Ocultar el botón original */
+    }
+</style>
+
+<h1 class="logo">PDJANGO</h1>
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form id="searchForm" action="{% url 'register_search' %}" method="post">
+    {% csrf_token %}
+    <div class="search-container">
+        <input type="text" id="searchInput" name="title" placeholder="Search..." required>
+        <span class="search-icon" id="searchBtn">&#128269;</span>
+        {{ form.language }}
+    </div>
+    <button type="submit">Search</button>
+</form>
+
+<script>
+    document.getElementById('searchBtn').addEventListener('click', function() {
+        document.getElementById('searchForm').submit();
+    });
+</script>
+{% endblock %}

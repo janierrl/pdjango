@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<h1>Change Account Data</h1>
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+
+    {{ password_form.old_password.errors }}
+    <label for="id_old_password">Old Password:</label>
+    {{ password_form.old_password }}
+    <br>
+    {{ password_form.new_password1.errors }}
+    <label for="id_new_password1">New Password:</label>
+    {{ password_form.new_password1 }}
+    <br>
+    {{ password_form.new_password2.errors }}
+    <label for="id_new_password2">Confirm New Password:</label>
+    {{ password_form.new_password2 }}
+
+    <button type="submit">Save Changes</button>
+</form>
+{% endblock %}

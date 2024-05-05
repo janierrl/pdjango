@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+<h1>login</h1>
+
+{% if messages %}
+<div>
+    {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>
+        login
+    </button>
+</form>
+{% endblock %}

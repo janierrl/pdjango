@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 500 - Internal Server Error</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Error 500 - Internal Server Error</h1>
+        <p>Oops! Something went wrong on our server.</p>
+        <p>We are sorry for the inconvenience. Our team has been notified and will work on fixing this issue as soon as possible.</p>
+        <p>In the meantime, you can go back to the <a href="{% url 'home' %}">home page</a> or try again later.</p>
+    </div>
+</body>
+</html>

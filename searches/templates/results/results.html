@@ -1,0 +1,68 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <style>
+        .container {
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+        .result-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .result-item {
+            background-color: #fff;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item:hover {
+            background-color: rgba(51, 51, 51, 0.1);
+            border: 1px solid #333;
+        }
+
+        .result-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .result-link:hover {
+            text-decoration: none;
+        }
+
+        .result-title {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .result-preview {
+            color: #666;
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="page-title">Results for the search "{{ search.title }}"</h1>
+
+        <ul class="result-list">
+            {% for result in results %}
+                <li class="result-item">
+                    <a href="{{ result.url }}" target="_blank" class="result-link">
+                        <h2 class="result-title">{{ result.title }}</h2>
+                        <p class="result-preview">{{ result.preview }}</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

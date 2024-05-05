@@ -1,0 +1,192 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+    <h1 style="text-align: center; margin-bottom: 20px; margin-top: 30px;">Searches</h1>
+
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="searches-table-container">
+        <table id="searches-table">
+            <thead style="background-color: #333; color: #fff;">
+                <tr>
+                    <th class="sortable" data-index="0">Title</th>
+                    <th class="sortable" data-index="1">Created At</th>
+                    <th class="sortable" data-index="2">Last Viewed At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for search in page_obj %}
+                    <tr class="{% cycle 'odd-row' 'even-row' %}">
+                        <td><a href="{% url 'results' search.id %}" class="table-link">{{ search.title }}</a></td>
+                        <td>{{ search.created_at }}</td>
+                        <td>{{ search.last_viewed_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="pagination-link">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination-link">&lsaquo;</a>
+            {% endif %}
+        
+            <span class="current">
+                Page {{ page_obj.number }} of {{ paginator.num_pages }}
+            </span>
+        
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="pagination-link">&rsaquo;</a>
+                <a href="?page={{ paginator.num_pages }}" class="pagination-link">&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <style>
+        .searches-table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+            padding: 0 20px; /* Agregar espacio a los lados de la página */
+            display: flex;
+            justify-content: center; /* Centrar horizontalmente */
+        }
+
+        #searches-table {
+            max-width: 800px; /* Establecer el ancho máximo */
+            width: 100%;
+            border-spacing: 0;
+            font-size: 14px;
+            border-radius: 10px; /* Bordado redondeado */
+            overflow: hidden; /* Para que los bordes redondeados se vean correctamente */
+        }
+
+        #searches-table th,
+        #searches-table td {
+            padding: 8px;
+            text-align: left;
+            border: none; /* Eliminar bordes de las celdas */
+        }
+
+        .sortable {
+            cursor: pointer;
+        }
+
+        .sortable:hover {
+            color: #ffd700; /* Cambiar el color del texto al pasar el mouse */
+        }
+
+        .table-link {
+            text-decoration: none; /* Quitar subrayado de los enlaces en las celdas */
+        }
+
+        .table-link:hover {
+            text-decoration: underline; /* Añadir subrayado al pasar el mouse */
+        }
+
+        .odd-row td a {
+            color: #333; /* Cambiar el color de los enlaces en filas impares */
+        }
+
+        .even-row td a {
+            color: rgba(51, 51, 51, 0.6); /* Cambiar el color de los enlaces en filas pares */
+        }
+
+        .odd-row {
+            background-color: rgba(51, 51, 51, 0.1);
+            color: #333;
+        }
+
+        .even-row {
+            background-color: transparent;
+            color: rgba(51, 51, 51, 0.6);
+        }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center; /* Centrar el texto de la paginación */
+            font-size: 16px; /* Tamaño de fuente del paginado */
+        }
+
+        .step-links .pagination-link {
+            color: #fff;
+            text-decoration: none;
+            background-color: #333;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .step-links .pagination-link:hover {
+            text-decoration: none;
+            color: #ffd700;
+            background-color: #333;
+        }
+
+        .step-links .current {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #333;
+        }
+
+        .current {
+            margin: 0 15px; /* Espacio alrededor del texto */
+        }
+
+        .step-links a,
+        .current {
+            padding: 5px; /* Añadir espacio interno */
+            border-radius: 25px; /* Bordes redondeados */
+            background-color: #f2f2f2; /* Color de fondo */
+        }
+
+        .step-links a:hover {
+            background-color: #ddd; /* Color de fondo al pasar el mouse */
+        }
+    </style>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById('searches-table');
+            const rows = Array.from(table.getElementsByTagName('tr'));
+            const isAscending = rows[1].getElementsByTagName('td')[columnIndex].textContent > rows[rows.length - 1].getElementsByTagName('td')[columnIndex].textContent;
+
+            rows.shift(); // Remove the header row from the array
+
+            rows.sort((a, b) => {
+                const aValue = a.getElementsByTagName('td')[columnIndex].textContent;
+                const bValue = b.getElementsByTagName('td')[columnIndex].textContent;
+                return isAscending ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+            });
+
+            while (table.rows.length > 1) {
+                table.deleteRow(1); // Delete all rows except the header row
+            }
+
+            rows.forEach(row => {
+                table.appendChild(row);
+                // Reapply odd-row and even-row classes after sorting
+                row.className = row.className.replace(/\bodd-row\b|\beven-row\b/g, '');
+                row.className += rows.indexOf(row) % 2 === 0 ? ' odd-row' : ' even-row';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const headers = document.querySelectorAll('.sortable');
+            headers.forEach(header => {
+                header.addEventListener('click', () => {
+                    const columnIndex = parseInt(header.getAttribute('data-index'));
+                    sortTable(columnIndex);
+                });
+            });
+        });
+    </script>
+{% endblock %}
